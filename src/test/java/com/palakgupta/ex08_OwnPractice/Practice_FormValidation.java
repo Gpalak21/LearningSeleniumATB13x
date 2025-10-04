@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class Practice_FormValidation {
@@ -20,16 +21,31 @@ public class Practice_FormValidation {
         name.clear();
         name.sendKeys("Palak");
 
-        driver.findElement(By.name("contactnumber")).sendKeys("7983945132");
+        driver.findElement(By.name("contactnumber")).sendKeys("798-3945132");
         WebElement dateInput = driver.findElement(By.name("pickupdate"));
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript("arguments[0].value='24/09/2025';", dateInput);
+//        JavascriptExecutor js = (JavascriptExecutor) driver;
+//        js.executeScript("arguments[0].value='24/09/2025';", dateInput);
+        dateInput.clear();
+        dateInput.sendKeys("14/11/2000");
         WebElement dropdown = driver.findElement(By.id("validationCustom04"));
-
-
-
         Select select = new Select(dropdown);
-        select.selectByVisibleText("card");
+        select.selectByVisibleText("cash on delivery ");
+
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        driver.findElement(By.xpath("//button[text()=' Register ']")).click();
+        String expectedText="Form Confirmation page for Automation Testing Practice";
+        String actualText=driver.findElement(By.xpath("//div[@class='container']/h1")).getText();
+
+        Assert.assertEquals(actualText,expectedText);
+
+driver.quit();
+
+
 
 
     }
